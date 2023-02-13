@@ -22,7 +22,7 @@ public class Associado implements Serializable {
 
     @Id
     private String id;
-    
+
     private String nome;
 
     @Indexed(unique = true)
