@@ -24,9 +24,9 @@ public class Pauta implements Serializable {
 
     private String descricao;
 
-    private Boolean sessaoAtiva = true;
+    private Boolean sessaoAtiva;
 
-    private LocalDateTime dataCadastro = LocalDateTime.now();
+    private LocalDateTime dataCadastro;
 
     private LocalDateTime dataEncerramento;
 }
