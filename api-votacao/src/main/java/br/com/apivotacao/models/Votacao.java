@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -30,5 +29,5 @@ public class Votacao implements Serializable {
 
     private TipoVoto tipoVoto;
 
-    private LocalDateTime dataVoto = LocalDateTime.now();
+    private LocalDateTime dataVoto;
 }
