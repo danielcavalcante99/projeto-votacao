@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -55,6 +56,11 @@ public class VotacaoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Não foi possível contabilizar os votos, pois a pauta não existe."));
 
         List<Votacao> votacaoList = this.repository.findByPauta_Id(idPauta);
+
+        if(votacaoList.isEmpty()) {
+           throw new ResourceNotFoundException("Nenhuma votação foi realizada para essa pauta.");
+        }
+
         Long totalVotoSim = votacaoList.stream().filter(votacao -> votacao.getTipoVoto().equals(TipoVoto.SIM)).count();
         Long totalVotoNAO = votacaoList.stream().filter(votacao -> votacao.getTipoVoto().equals(TipoVoto.NAO)).count();
 
@@ -64,6 +70,17 @@ public class VotacaoService {
                 .totalVotosNao(totalVotoNAO).build();
 
         return totalVotos;
+    }
+
+    public void deletarPorId(String id) {
+        this.repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Não será possível excluir a votação, pois não existe!"));
+
+        this.repository.deleteById(id);
+    }
+
+    public Optional<Votacao> buscarPorid(String id) {
+        return this.repository.findById(id);
     }
 
     public List<Votacao> buscarTodos() {
