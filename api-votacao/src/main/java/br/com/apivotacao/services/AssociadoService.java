@@ -1,6 +1,7 @@
 package br.com.apivotacao.services;
 
 import br.com.apivotacao.exceptions.BusinessException;
+import br.com.apivotacao.exceptions.ResourceNotFoundException;
 import br.com.apivotacao.models.Associado;
 import br.com.apivotacao.repositories.AssociadoRepository;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,9 @@ public class AssociadoService {
     }
 
     public void deletarPorId(String id) {
+        this.repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Não será possível excluir o associado, pois não existe!"));
+
         this.repository.deleteById(id);
     }
 
