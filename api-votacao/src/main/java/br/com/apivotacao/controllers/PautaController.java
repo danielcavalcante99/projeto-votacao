@@ -1,13 +1,16 @@
 package br.com.apivotacao.controllers;
 
+import br.com.apivotacao.dtos.PautaDTO;
 import br.com.apivotacao.models.Pauta;
 import br.com.apivotacao.services.PautaService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,9 +38,15 @@ public class PautaController {
     }
 
     @PostMapping("/v1/salvar")
-    public ResponseEntity<Pauta> salvar(@RequestBody @Valid Pauta Pauta) {
-        this.service.salvar(Pauta);
-        return ResponseEntity.status(HttpStatus.CREATED).body(Pauta);
+    public ResponseEntity<Pauta> salvar(@RequestBody @Valid PautaDTO pautaDTO) {
+        pautaDTO.setDataCadastro(LocalDateTime.now());
+        pautaDTO.setSessaoAtiva(true);
+
+        Pauta pauta = new Pauta();
+        BeanUtils.copyProperties(pautaDTO, pauta);
+
+        this.service.salvar(pauta);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pauta);
     }
 
     @PutMapping("/v1/encerrarsessao/{id}")
