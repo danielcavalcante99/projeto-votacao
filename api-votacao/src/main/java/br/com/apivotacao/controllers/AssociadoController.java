@@ -47,7 +47,7 @@ public class AssociadoController {
         List<Associado> associadoList = this.service.buscarTodos();
 
         if (associadoList.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
         return ResponseEntity.ok(associadoList);
