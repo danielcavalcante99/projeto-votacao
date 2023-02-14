@@ -67,6 +67,9 @@ public class PautaService {
     }
 
     public void deletarPorId(String id) {
+        this.repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Não será possível excluir a pauta, pois não existe!"));
+
         this.repository.deleteById(id);
     }
 }
